@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import PostList from './PostList'
+import Header from './Header'
 
 class App extends Component {
   render() {
     return (
-      <PostList />
+      <div>
+        <Header />
+        <PostList />
+      </div>
     )
   }
 }
