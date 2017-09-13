@@ -24,7 +24,11 @@ export const posts = (state = [], action) => {
           : oldPost
       )
     case actionsTypes.DELETE_POST:
-      return state.filter(oldPost => oldPost.id !== post.id)
+      return state.map(oldPost =>
+        (oldPost.id === post.id)
+          ? {...oldPost, deleted: true}
+          : oldPost
+      )
     case actionsTypes.VOTE_POST:
       return state.map(oldPost =>
         (oldPost.id === post.id)
@@ -37,19 +41,17 @@ export const posts = (state = [], action) => {
 }
 
 export const sortPosts = (state = 'BY_VOTE', action) => {
-  switch (action.type) {
-    case actionsTypes.SORT_POSTS:
-      return action.sortBy
-    default:
-      return state
+  if (action.type === actionsTypes.SORT_POSTS) {
+    return action.sortBy
+  } else {
+    return state
   }
 }
 
 export const categoryFilter = (state = '', action) => {
-  switch (action.type) {
-    case actionsTypes.CATEGORY_FILTER:
-      return action.categoryFilter
-    default:
-      return state
+  if (action.type === actionsTypes.CATEGORY_FILTER) {
+    return action.categoryFilter
+  } else {
+    return state
   }
 }

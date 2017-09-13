@@ -25,6 +25,12 @@ export const updatePost = (id, title, body, category) => (
   }
 )
 
+export const sortPosts = (sortBy) => (
+  {
+    type: actionTypes.SORT_POSTS,
+    sortBy: sortBy
+  }
+)
 
 export const deletePost = (id) => (
   {
@@ -37,5 +43,12 @@ export const votePost = (id) => (
   {
     type: actionTypes.VOTE_POST,
     id: id
+  }
+)
+
+export const categoryFilter = (categoryFilter) => (
+  {
+    type: actionTypes.CATEGORY_FILTER,
+    categoryFilter: categoryFilter
   }
 )

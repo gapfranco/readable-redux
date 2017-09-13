@@ -4,7 +4,7 @@ const Post = ({post}) => {
   return (
     <div className="item">
       <div className="content">
-        <a className="header">{post.name}</a>
+        <a className="header">{post.title}</a>
         <div className="meta">
           {post.category}
           <div className="ui right floated">
@@ -18,8 +18,18 @@ const Post = ({post}) => {
           <p>{post.body}</p>
         </div>
         <div className="extra">
-          <img className="ui avatar image" src={`/images/avatars/${post.author}.jpg`} alt={post.author} />{post.author}
-          <span className="ui right floated">3 comments</span>
+          <span className="ui image label">
+            <img className="ui image" src={`/images/avatars/${post.author}.jpg`} alt={post.author} />
+            {post.author}
+          </span>
+          <span className="ui label">
+            <i className="calendar icon"></i>
+            {new Date(post.timestamp).toLocaleString()}
+          </span>
+          <span className="ui label basic right floated">
+            <i className="comment outline icon"></i>
+            3
+          </span>
         </div>
       </div>
     </div>

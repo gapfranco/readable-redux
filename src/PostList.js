@@ -1,12 +1,15 @@
 import React from 'react'
 import Post from './Post'
-import PostData from './PostData'
 
-const PostList = () => {
+const PostList = ({posts, sortPosts, categoryFilter}) => {
   return (
     <div className="main ui text container">
       <div className="ui divided items">
-        {PostData.map(post => (
+        {[...posts]
+          .filter(post => !post.deleted)
+          .filter(post => categoryFilter === '' || post.category === categoryFilter)
+          .sort((a, b) => sortPosts === 'BY_VOTE' ? b.voteScore - a.voteScore : b.timestamp - a.timestamp)
+          .map(post => (
           <Post post={post} key={post.id}></ Post>
         ))}
       </div>
