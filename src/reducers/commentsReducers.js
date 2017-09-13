@@ -1,8 +1,8 @@
-import actions from '../actions'
+import actionsTypes from '../actions/actionTypes'
 
-const comments = (state = [], action) => {
+export const comments = (state = [], action) => {
   switch (action.type) {
-    case actions.ADD_COMMENT:
+    case actionsTypes.ADD_COMMENT:
       return [
         ...state,
         {
@@ -16,18 +16,18 @@ const comments = (state = [], action) => {
           parentDeleted: false
         }
       ]
-    case actions.UPDATE_COMMENT:
+    case actionsTypes.UPDATE_COMMENT:
       return state.map(comment =>
         (comment.id === action.id)
           ? Object.assign({...comment}, action)
           : comment
       )
-    case actions.DELETE_COMMENT:
+    case actionsTypes.DELETE_COMMENT:
       return state.filter(post => post.id !== action.id)
-    case actions.VOTE_COMMENT:
+    case actionsTypes.VOTE_COMMENT:
       return state.map(comment =>
         (comment.id === action.id)
-          ? {...post, voteScore: ++comment.voteScore}
+          ? {...comment, voteScore: ++comment.voteScore}
           : comment
       )
     default:
@@ -35,4 +35,11 @@ const comments = (state = [], action) => {
   }
 }
 
-export default posts
+export const sortComments = (state = 'BY_VOTE', action) => {
+  switch (action.type) {
+    case actionsTypes.SORT_COMMENTS:
+      return action.sortBy
+    default:
+      return state
+  }
+}

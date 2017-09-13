@@ -1,5 +1,5 @@
 
-const actions = {
+const actionsTypes = {
   ADD_POST: 'ADD_POST',
   UPDATE_POST: 'UPDATE_POST',
   DELETE_POST: 'DELETE_POST',
@@ -13,4 +13,4 @@ const actions = {
   SORT_COMMENT: 'SORT_COMMENT',
 }
 
-export default actions
+export default actionsTypes
