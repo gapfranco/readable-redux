@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { votePost } from './actions/postActions'
 
-const Post = ({post}) => {
+const Post = ({post, key, votePost}) => {
   return (
     <div className="item">
       <div className="content">
@@ -9,7 +11,7 @@ const Post = ({post}) => {
           {post.category}
           <div className="ui right floated">
             {post.voteScore}
-            <a>
+            <a onClick={() => votePost(post.id)}>
               <i className='large caret up icon' />
             </a>
           </div>
@@ -36,4 +38,10 @@ const Post = ({post}) => {
   )
 }
 
-export default Post
+const mapDispatchToProps = (dispatch) => {
+  return {
+    votePost: (id) => dispatch(votePost(id))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Post)

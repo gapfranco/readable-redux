@@ -11,6 +11,7 @@ const actionsTypes = {
   DELETE_COMMENT: 'DELETE_COMMENT',
   VOTE_COMMENT: 'VOTE_COMMENT',
   SORT_COMMENTS: 'SORT_COMMENTS',
+  SET_USER: 'SET_USER',
 }
 
 export default actionsTypes
