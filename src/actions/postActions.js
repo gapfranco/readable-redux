@@ -52,3 +52,10 @@ export const categoryFilter = (categoryFilter) => (
     categoryFilter: categoryFilter
   }
 )
+
+export const user = (user) => (
+  {
+    type: actionTypes.SET_USER,
+    user: user
+  }
+)

@@ -14,7 +14,7 @@ export const posts = (state = [], action) => {
           author: post.author,
           category: post.category,
           voteScore: 0,
-          deleted: false
+          deleted: false,
         }
       ]
     case actionsTypes.UPDATE_POST:
@@ -40,7 +40,7 @@ export const posts = (state = [], action) => {
   }
 }
 
-export const sortPosts = (state = 'BY_VOTE', action) => {
+export const sortPosts = (state = 'Sort by Votes', action) => {
   if (action.type === actionsTypes.SORT_POSTS) {
     return action.sortBy
   } else {
@@ -51,6 +51,14 @@ export const sortPosts = (state = 'BY_VOTE', action) => {
 export const categoryFilter = (state = '', action) => {
   if (action.type === actionsTypes.CATEGORY_FILTER) {
     return action.categoryFilter
+  } else {
+    return state
+  }
+}
+
+export const user = (state = 'elliot', action) => {
+  if (action.type === actionsTypes.SET_USER) {
+    return action.user
   } else {
     return state
   }
