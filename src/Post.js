@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { votePost } from './actions/postActions'
 
@@ -6,13 +7,17 @@ const Post = ({post, key, votePost}) => {
   return (
     <div className="item">
       <div className="content">
-        <a className="header">{post.title}</a>
+        <div className="header">
+          <Link to={`/post/${post.id}`}>{post.title}</Link>
+        </div>
         <div className="meta">
           {post.category}
           <div className="ui right floated">
-            {post.voteScore}
-            <a onClick={() => votePost(post.id)}>
-              <i className='large caret up icon' />
+            {post.voteScore} <a onClick={() => votePost(post.id)}>
+              {post.voteScore > 0 
+                ? <i className='star yellow icon' />
+                : <i className='empty star yellow icon' />
+              }
             </a>
           </div>
         </div>

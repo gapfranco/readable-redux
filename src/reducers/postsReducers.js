@@ -3,6 +3,8 @@ import actionsTypes from '../actions/actionTypes'
 export const posts = (state = [], action) => {
   const {type, ...post} = action
   switch (type) {
+    case actionsTypes.LOAD_POSTS_SUCCESS:
+      return post.posts;
     case actionsTypes.ADD_POST:
       return [
         ...state,
@@ -59,6 +61,15 @@ export const categoryFilter = (state = '', action) => {
 export const user = (state = 'elliot', action) => {
   if (action.type === actionsTypes.SET_USER) {
     return action.user
+  } else {
+    return state
+  }
+}
+
+export const categories = (state = [], action) => {
+  const {type, ...rest} = action
+  if (type === actionsTypes.LOAD_CATEGORIES) {
+    return rest.categories
   } else {
     return state
   }

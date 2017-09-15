@@ -1,5 +1,6 @@
 
 const actionsTypes = {
+  LOAD_POSTS_SUCCESS: 'LOAD_POSTS_SUCCESS',
   ADD_POST: 'ADD_POST',
   UPDATE_POST: 'UPDATE_POST',
   DELETE_POST: 'DELETE_POST',
@@ -12,6 +13,7 @@ const actionsTypes = {
   VOTE_COMMENT: 'VOTE_COMMENT',
   SORT_COMMENTS: 'SORT_COMMENTS',
   SET_USER: 'SET_USER',
+  LOAD_CATEGORIES: 'LOAD_CATEGORIES',
 }
 
 export default actionsTypes

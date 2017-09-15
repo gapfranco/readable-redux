@@ -1,29 +1,52 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { user, sortPosts } from './actions/postActions'
+import { Link } from 'react-router-dom';
 
-const Header = ({user, sortPosts, setUser, setOrder}) => {
+import { user, setCategoryFilter, sortPosts } from './actions/postActions'
+
+const Header = ({user, sortPosts, setUser, setOrder, setCategory, categoryFilter, categories}) => {
 
   // array of fixed users for header menu
   const users = [
-    'daniel','elliot','elyse','helen','jenny','justen',
-    'kristy','matthew','molly','stevie','veronika','steve'
+    'daniel','elliot','elyse','helen','jenny','justen', 'thingone',
+    'kristy','matthew','molly','stevie','veronika','steve', 'thingtwo'
   ]
   return (
     <div className="ui fixed menu">
 
-      <div className="ui center aligned container">
+      <div className="ui fluid container">
 
-        <a className="item">
-          <img className="ui avatar image" src={`/logo.svg`} alt="react" />
-          {/* <i className="react icon"></i> Readable */}
-          Readable
-        </a>
+        <span className="item">
+          <Link to="/">
+            <img className="ui avatar image" src={`/logo.svg`} alt="react" />
+            Readable
+          </Link>
+        </span>
+
+        {/* New post link */}
+        <span className="item">
+          <Link to="/post/new">
+            <i className="add icon"></i> New Post
+          </Link>
+        </span>
 
         {/* Category filter */}
-        <a className="item">
-          <i className="list icon"></i> All Categories
-        </a>
+        <div className="ui simple dropdown item">
+          <i className="list icon"></i> {categoryFilter ? categoryFilter : 'All Categories'}
+          <div className="menu">
+            <a className="item" key='none' onClick={() => setCategory('')}>
+               All Categories
+            </a>
+            {
+              categories.map((category) => (
+                <a className="item" key={category.name} onClick={() => setCategory(category.name)}>
+                  {category.name}
+                </a>
+              ))
+            }
+          
+          </div>
+        </div>
 
         {/* Change sort */}
         <a className="ui simple dropdown item">
@@ -36,11 +59,6 @@ const Header = ({user, sortPosts, setUser, setOrder}) => {
               Sort by Date/Time
             </div>
           </div>
-        </a>
-
-        {/* New post link */}
-        <a className="item">
-          <i className="add icon"></i> New Post
         </a>
 
         {/* Change fake user */}
@@ -73,6 +91,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     setUser: (id) => dispatch(user(id)),
+    setCategory: (id) => dispatch(setCategoryFilter(id)),
     setOrder: (order) => dispatch(sortPosts(order)),
   }
 }
