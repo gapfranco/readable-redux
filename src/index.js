@@ -17,10 +17,6 @@ const store = createStore(mainReducer, applyMiddleware(thunk))
 store.dispatch(loadPosts())
 store.dispatch(loadCategories())
 
-//store.dispatch(addPost('TESTE 1', 'Corpo do teste 1', 'matthew', 'redux'))
-// store.dispatch(addPost('TESTE 2', 'Corpo do teste 2', 'justen', 'react'))
-// store.dispatch(addPost('TESTE 3', 'Corpo do teste 3', 'daniel', 'redux'))
-// store.dispatch(addPost('TESTE 4', 'Corpo do teste 4', 'molly', 'redux'))
 store.subscribe(() => console.log(store.getState()))
 
 ReactDOM.render(

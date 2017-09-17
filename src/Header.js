@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 
 import { user, setCategoryFilter, sortPosts } from './actions/postActions'
 
@@ -25,13 +26,13 @@ const Header = ({user, sortPosts, setUser, setOrder, setCategory, categoryFilter
 
         {/* New post link */}
         <span className="item">
-          <Link to="/post/new">
+          <Link to="/newpost">
             <i className="add icon"></i> New Post
           </Link>
         </span>
 
         {/* Category filter */}
-        <div className="ui simple dropdown item">
+        <div className="ui simple dropdown item menuItem">
           <i className="list icon"></i> {categoryFilter ? categoryFilter : 'All Categories'}
           <div className="menu">
             <a className="item" key='none' onClick={() => setCategory('')}>
@@ -49,7 +50,7 @@ const Header = ({user, sortPosts, setUser, setOrder, setCategory, categoryFilter
         </div>
 
         {/* Change sort */}
-        <a className="ui simple dropdown item">
+        <a className="ui simple dropdown item menuItem">
           <i className="sort content descending icon"></i> {sortPosts}
           <div className="menu">
             <div className="item" onClick={() => setOrder('Sort by Votes')}>
@@ -62,10 +63,9 @@ const Header = ({user, sortPosts, setUser, setOrder, setCategory, categoryFilter
         </a>
 
         {/* Change fake user */}
-        <div className="ui simple dropdown item">
+        <div className="ui simple dropdown item menuItem">
           <img className="ui avatar image" src={`/images/avatars/${user}.jpg`} alt={user} />
-          <span className="user">{user}</span>
-          <i className="dropdown icon"></i>
+          {user}
           <div className="menu">
             {
               users.map((user) => (
@@ -96,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header))
