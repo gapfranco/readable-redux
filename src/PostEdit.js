@@ -3,16 +3,20 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import PostForm from './PostForm'
+import CommentList from './CommentList'
 
 const PostEdit = (props) => {
-  const {match, posts, comments} = {...props}
+  const {match, posts} = {...props}
   const postId = match.params.postId
   let post = posts.find(post => post.id === postId)
   if (typeof post === 'undefined') {
     post = {}
   }  
   return (
-    <PostForm post={post} />
+    <div>
+      <PostForm post={post} />
+      <CommentList parentId={post.id} />
+    </div>
   );
 }
 

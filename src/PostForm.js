@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Form, Input, TextArea, Dropdown } from 'formsy-semantic-ui-react'
 import { Label, Button } from 'semantic-ui-react'
+import { Form, Input, TextArea, Dropdown } from 'formsy-semantic-ui-react'
+import If from './If';
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { updatePost, addPost } from './actions/postActions'
+import { updatePost, deletePost, addPost, votePost } from './actions/postActions'
 
 class PostForm extends Component {
   
@@ -21,17 +22,35 @@ class PostForm extends Component {
     }
   }
   
+  votePost = (id) => {
+    // Update global state
+    this.props.dispatch(votePost(id))
+    // Update local state fo display
+    this.setState(prevState => ({
+      post: {
+        ...prevState.post,
+        voteScore: prevState.post.voteScore + 1
+      }
+    }))
+  }
+
   validSubmit = (form) => {
-    console.log(form)
     if (this.insert) {
-      this.props.dispatch(addPost(form.title, form.body, this.props.user, form.category))      
+      this.props.dispatch(addPost(form.title, form.body, this.props.user, form.category))  
+      this.props.history.push('/')    
     } else {
       this.props.dispatch(updatePost(this.state.post.id, form.title, form.body, form.category))
     }
   }
 
+  clickDelete = (event) => {
+    event.preventDefault()
+    this.props.dispatch(deletePost(this.state.post.id))
+    this.props.history.push('/')    
+  }
+
   render() {
-    const errorLabel = <Label color="red" pointing="left"/>
+    const errorLabel = <Label color="red" pointing/>
     return (
       <div className="main ui text container">
 
@@ -50,10 +69,53 @@ class PostForm extends Component {
             value={this.state.post.category}
             validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel} 
             options={this.state.categories.map(cat => ({text: cat.name, value: cat.path}))}
-          />  
+          /> 
 
-          <Button content="Save" /> 
+          {/* If it's an update, shows user, date and vote cont */}
+          <If test={!this.insert}>
+            <div className="ui item grid">
+              <div className="two column row">
+                <div className="left floated column">
+                  <span className="ui image label item">
+                    <img className="ui image" src={`/images/avatars/${this.state.post.author}.jpg`} alt={this.state.post.author} />
+                    {this.state.post.author}
+                  </span>
+                  <span className="ui image label item">
+                    <i className="calendar icon"></i>
+                    {new Date(this.state.post.timestamp).toLocaleString()}
+                  </span>
+                </div>
+                <div className="right floated right aligned column">
+                  <span>
+                    {this.state.post.voteScore} <a onClick={() => this.votePost(this.state.post.id)}>
+                      {this.state.post.voteScore > 0 
+                        ? <i className='star yellow icon' />
+                        : <i className='empty star yellow icon' />
+                      }
+                      </a>
+                  </span>
+                </div>
+              </div>  
+            </div>
+          </If>
           
+          {/* Buttons to save or delete */}
+          <div className="ui list">
+            <div className="ui item grid">
+              <div className="two column row">
+                <div className="left floated column">
+                  <Button primary icon='check' content="Save" /> 
+                </div>
+                {/* Delete only if it's an update */}
+                <If test={!this.insert}>
+                  <div className="right floated right aligned column">
+                    <Button color='red' icon='delete' content="Delete" onClick={this.clickDelete}/> 
+                  </div>
+                </If>
+              </div>
+            </div>
+          </div>
+
         </Form>
 
       </div>
