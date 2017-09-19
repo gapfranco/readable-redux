@@ -3,6 +3,8 @@ import actionsTypes from '../actions/actionTypes'
 export const comments = (state = [], action) => {
   const {type, ...comment} = action
   switch (type) {
+    case actionsTypes.LOAD_COMMENTS_SUCCESS:
+      return comment.comments;
     case actionsTypes.ADD_COMMENT:
       return [
         ...state,
@@ -36,7 +38,7 @@ export const comments = (state = [], action) => {
   }
 }
 
-export const sortComments = (state = 'BY_VOTE', action) => {
+export const sortComments = (state = 'Sort by Votes', action) => {
   if (action.type === actionsTypes.SORT_COMMENTS) {
     return action.sortBy
   } else {

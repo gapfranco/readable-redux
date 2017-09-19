@@ -23,7 +23,15 @@ class PostsApi {
       return error;
     });
   }
-  
+
+  static getComments(postId) {
+    return fetch(`http://localhost:3001/posts/${postId}/comments`, init).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
+
 }
 
 export default PostsApi

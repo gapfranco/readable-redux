@@ -1,5 +1,20 @@
 import actionTypes from './actionTypes'
 import v4 from 'uuid'
+import postsApi from '../api/postsApi'
+
+export const loadComments = (postId) => {  
+  return function(dispatch) {
+    return postsApi.getComments(postId).then(comments => {
+      dispatch(loadCommentsSuccess(comments));
+    }).catch(error => {
+      throw(error);
+    });
+  };
+}
+
+export const loadCommentsSuccess = (comments) => {  
+  return {type: actionTypes.LOAD_COMMENTS_SUCCESS, comments};
+}
 
 export const addComment = (parentId, title, body, author) => (
   {

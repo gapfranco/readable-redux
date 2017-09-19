@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { votePost } from './actions/postActions'
+import { votePost } from '../actions/postActions'
+import { withRouter } from 'react-router-dom'
 
 const Post = ({post, key, votePost}) => {
   return (
@@ -49,4 +50,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Post)
+export default withRouter(connect(null, mapDispatchToProps)(Post))

@@ -4,10 +4,11 @@ import { withRouter } from 'react-router-dom'
 
 import PostForm from './PostForm'
 import CommentList from './CommentList'
+import { loadComments } from '../actions/commentActions'
 
-const PostEdit = (props) => {
-  const {match, posts} = {...props}
+const PostEdit = ({match, posts, dispatch}) => {
   const postId = match.params.postId
+  dispatch(loadComments(postId))
   let post = posts.find(post => post.id === postId)
   if (typeof post === 'undefined') {
     post = {}
@@ -15,13 +16,13 @@ const PostEdit = (props) => {
   return (
     <div>
       <PostForm post={post} />
-      <CommentList parentId={post.id} />
+      <CommentList />
     </div>
   );
 }
 
 const mapStateToProps = (state, props) => ({
-  ...state
-});
+  posts: state.posts
+})
 
 export default withRouter(connect(mapStateToProps)(PostEdit))

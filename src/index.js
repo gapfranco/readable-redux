@@ -17,7 +17,7 @@ const store = createStore(mainReducer, applyMiddleware(thunk))
 store.dispatch(loadPosts())
 store.dispatch(loadCategories())
 
-store.subscribe(() => console.log(store.getState()))
+// store.subscribe(() => console.log(store.getState()))
 
 ReactDOM.render(
   <Provider store={store}>

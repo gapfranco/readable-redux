@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom'
 
-import { user, setCategoryFilter, sortPosts } from './actions/postActions'
+import { user, setCategoryFilter, sortPosts } from '../actions/postActions'
 
 const Header = ({user, sortPosts, setUser, setOrder, setCategory, categoryFilter, categories}) => {
 

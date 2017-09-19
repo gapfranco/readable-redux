@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Label, Button } from 'semantic-ui-react'
 import { Form, Input, TextArea, Dropdown } from 'formsy-semantic-ui-react'
-import If from './If';
+import If from '../utils/If';
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { updatePost, deletePost, addPost, votePost } from './actions/postActions'
+import { updatePost, deletePost, addPost, votePost } from '../actions/postActions'
 
 class PostForm extends Component {
   
@@ -18,7 +18,6 @@ class PostForm extends Component {
     }
     this.state = {
       post: {...props.post},
-      categories: props.categories
     }
   }
   
@@ -68,7 +67,7 @@ class PostForm extends Component {
           <Dropdown name="category" label="Category" placeholder="Select category" search selection required
             value={this.state.post.category}
             validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel} 
-            options={this.state.categories.map(cat => ({text: cat.name, value: cat.path}))}
+            options={this.props.categories.map(cat => ({text: cat.name, value: cat.path}))}
           /> 
 
           {/* If it's an update, shows user, date and vote cont */}
