@@ -9,10 +9,11 @@ import { loadComments } from '../actions/commentActions'
 const PostEdit = ({match, posts, dispatch}) => {
   const postId = match.params.postId
   dispatch(loadComments(postId))
+  console.log(posts)
   let post = posts.find(post => post.id === postId)
   if (typeof post === 'undefined') {
     post = {}
-  }  
+  } 
   return (
     <div>
       <PostForm post={post} />
