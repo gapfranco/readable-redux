@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Form, Button, Modal } from 'semantic-ui-react'
 
 import { connect } from 'react-redux'
-import { voteComment, updateComment } from '../actions/commentActions'
+import { voteComment, updateComment, deleteComment } from '../actions/commentActions'
 
 class Comment extends Component {
 
@@ -45,7 +45,7 @@ class Comment extends Component {
               <i className="calendar icon"></i>
               {new Date(this.props.comment.timestamp).toLocaleString()}
             </span>
-            <a className="ui basic label">
+            <a className="ui basic label" onClick={() => this.props.deleteComment(this.props.comment.id)}>
               <i className="remove icon"></i>
               Delete comment
             </a>
@@ -90,7 +90,8 @@ class Comment extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     voteComment: (id) => dispatch(voteComment(id)),
-    updateComment: (id, body) => dispatch(updateComment(id, body))
+    updateComment: (id, body) => dispatch(updateComment(id, body)),
+    deleteComment: (id) => dispatch(deleteComment(id))
   }
 }
 

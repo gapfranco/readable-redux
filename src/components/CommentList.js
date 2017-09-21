@@ -2,19 +2,31 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Comment from './Comment'
 import { Form, Button, Modal } from 'semantic-ui-react'
+import { addComment, sortComments } from '../actions/commentActions'
 
 class CommentList extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      open: false
+      open: false,
+      body: ''
     }
   }
 
   show = () => this.setState({ open: true })
 
   close = () => this.setState({ open: false })
+
+  changeLocal = (event) => {
+    event.preventDefault()
+    this.setState({ body: event.target.value })
+  }
+
+  save = () => {
+    this.props.dispatch(addComment(this.props.postId, this.state.body, this.props.user))
+    this.setState({ open: false })
+  }
 
   render() {
     return (
@@ -25,10 +37,10 @@ class CommentList extends Component {
           <a className="ui simple dropdown item menuItem">
             <i className="sort content descending icon"></i> {this.props.sortComments}
             <div className="menu">
-              <div className="item" onClick={() => console.log('Sort by Votes')}>
+              <div className="item" onClick={() => this.props.dispatch(sortComments('Sort by Votes'))} >
                 Sort by Votes
               </div>
-              <div className="item" onClick={() => console.log('Sort by Date/Time')}>
+              <div className="item" onClick={() => this.props.dispatch(sortComments('Sort by Date/Time'))}>
                 Sort by Date/Time
               </div>
             </div>
@@ -51,10 +63,13 @@ class CommentList extends Component {
           </Modal.Header>
           <Modal.Content>
             <Form>
-              <Form.TextArea placeholder='Comment' rows="6" />
+              <Form.TextArea placeholder='Comment' rows="6" onChange={this.changeLocal} />
             </Form>
           </Modal.Content>
           <Modal.Actions>
+            <Button className="ui primary button" onClick={this.save}>
+              Save
+            </Button>
             <Button onClick={this.close}>
               Close
             </Button>
