@@ -2,17 +2,23 @@ import actionTypes from './actionTypes'
 import v4 from 'uuid'
 import postsApi from '../api/postsApi'
 
-export const loadComments = (postId) => {  
+/**
+ * Load all posts and for each post load all comments
+ * Returns an array os arrays of comments
+ */
+export const loadAllComments = () => {
   return function(dispatch) {
-    return postsApi.getComments(postId).then(comments => {
-      dispatch(loadCommentsSuccess(comments));
-    }).catch(error => {
-      throw(error);
-    });
+    return postsApi.getAllPosts()
+      .then(posts => posts.map(post => postsApi.getComments(post.id)))
+      .then(comments => Promise.all(comments).then(list => dispatch(loadCommentsSuccess(list))))
+      .catch(error => {
+        throw(error);
+      });
   };
+
 }
 
-export const loadCommentsSuccess = (comments) => {  
+export const loadCommentsSuccess = (comments) => {
   return {type: actionTypes.LOAD_COMMENTS_SUCCESS, comments};
 }
 

@@ -4,7 +4,9 @@ export const comments = (state = [], action) => {
   const {type, ...comment} = action
   switch (type) {
     case actionsTypes.LOAD_COMMENTS_SUCCESS:
-      return comment.comments;
+      // Flatten comment.comments (array of arrays of comments)
+      // Alternative: return comment.comments.reduce((a, b) => a.concat(b), [])
+      return [].concat(...comment.comments)
     case actionsTypes.ADD_COMMENT:
       return [
         ...state,

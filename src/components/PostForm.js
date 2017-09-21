@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom'
 import { updatePost, deletePost, addPost, votePost } from '../actions/postActions'
 
 class PostForm extends Component {
-  
+
   constructor (props) {
     super(props)
     if (!props.post.id) {
@@ -20,7 +20,7 @@ class PostForm extends Component {
       post: {...props.post},
     }
   }
-  
+
   votePost = (id) => {
     // Update global state
     this.props.dispatch(votePost(id))
@@ -35,8 +35,8 @@ class PostForm extends Component {
 
   validSubmit = (form) => {
     if (this.insert) {
-      this.props.dispatch(addPost(form.title, form.body, this.props.user, form.category))  
-      this.props.history.push('/')    
+      this.props.dispatch(addPost(form.title, form.body, this.props.user, form.category))
+      this.props.history.push('/')
     } else {
       this.props.dispatch(updatePost(this.state.post.id, form.title, form.body, form.category))
     }
@@ -45,7 +45,7 @@ class PostForm extends Component {
   clickDelete = (event) => {
     event.preventDefault()
     this.props.dispatch(deletePost(this.state.post.id))
-    this.props.history.push('/')    
+    this.props.history.push('/')
   }
 
   render() {
@@ -58,17 +58,17 @@ class PostForm extends Component {
           <h4 className="ui dividing header">{this.state.post.id ? 'Update Post' : 'New Post'}</h4>
           <Input name="title" label="Title" placeholder="Title" required
             value={this.state.post.title}
-            validationErrors={{isDefaultRequiredValue: 'Title is required'}} errorLabel={errorLabel} />  
-          
+            validationErrors={{isDefaultRequiredValue: 'Title is required'}} errorLabel={errorLabel} />
+
           <TextArea name="body" label="Text" placeholder="Text" required
             value={this.state.post.body}
-            validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel} />  
+            validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel} />
 
           <Dropdown name="category" label="Category" placeholder="Select category" search selection required
             value={this.state.post.category}
-            validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel} 
+            validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel}
             options={this.props.categories.map(cat => ({text: cat.name, value: cat.path}))}
-          /> 
+          />
 
           {/* If it's an update, shows user, date and vote cont */}
           <If test={!this.insert}>
@@ -87,28 +87,28 @@ class PostForm extends Component {
                 <div className="right floated right aligned column">
                   <span>
                     {this.state.post.voteScore} <a onClick={() => this.votePost(this.state.post.id)}>
-                      {this.state.post.voteScore > 0 
+                      {this.state.post.voteScore > 0
                         ? <i className='star yellow icon' />
                         : <i className='empty star yellow icon' />
                       }
                       </a>
                   </span>
                 </div>
-              </div>  
+              </div>
             </div>
           </If>
-          
+
           {/* Buttons to save or delete */}
           <div className="ui list">
             <div className="ui item grid">
               <div className="two column row">
                 <div className="left floated column">
-                  <Button primary icon='check' content="Save" /> 
+                  <Button primary icon='check' content="Save" />
                 </div>
                 {/* Delete only if it's an update */}
                 <If test={!this.insert}>
                   <div className="right floated right aligned column">
-                    <Button color='red' icon='delete' content="Delete" onClick={this.clickDelete}/> 
+                    <Button color='red' icon='delete' content="Delete" onClick={this.clickDelete}/>
                   </div>
                 </If>
               </div>

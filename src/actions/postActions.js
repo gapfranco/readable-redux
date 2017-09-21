@@ -2,7 +2,7 @@ import actionTypes from './actionTypes'
 import v4 from 'uuid'
 import postsApi from '../api/postsApi'
 
-export const loadPosts = () => {  
+export const loadPosts = () => {
   return function(dispatch) {
     return postsApi.getAllPosts().then(posts => {
       dispatch(loadPostsSuccess(posts));
@@ -12,11 +12,11 @@ export const loadPosts = () => {
   };
 }
 
-export const loadPostsSuccess = (posts) => {  
+export const loadPostsSuccess = (posts) => {
   return {type: actionTypes.LOAD_POSTS_SUCCESS, posts};
 }
 
-export const loadCategories = () => {  
+export const loadCategories = () => {
   return function(dispatch) {
     return postsApi.getCategories().then(result => {
       dispatch(loadCategoriesSuccess(result.categories));
@@ -26,7 +26,7 @@ export const loadCategories = () => {
   };
 }
 
-export const loadCategoriesSuccess = (categories) => {  
+export const loadCategoriesSuccess = (categories) => {
   return {type: actionTypes.LOAD_CATEGORIES, categories};
 }
 

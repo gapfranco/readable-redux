@@ -4,22 +4,28 @@ import { withRouter } from 'react-router-dom'
 
 import PostForm from './PostForm'
 import CommentList from './CommentList'
-import { loadComments } from '../actions/commentActions'
 
 const PostEdit = ({match, posts, dispatch}) => {
   const postId = match.params.postId
-  dispatch(loadComments(postId))
-  console.log(posts)
   let post = posts.find(post => post.id === postId)
+  /**
+   * If post (asynchronous) has not arrived: shows message
+   * When arrived: shows form and comments
+   */
   if (typeof post === 'undefined') {
-    post = {}
-  } 
-  return (
-    <div>
-      <PostForm post={post} />
-      <CommentList />
-    </div>
-  );
+    return (
+      <div>
+        <h2>Aguarde...</h2>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <PostForm post={post} />
+        <CommentList postId={post.id}/>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => ({
