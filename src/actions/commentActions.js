@@ -22,7 +22,7 @@ export const loadCommentsSuccess = (comments) => {
   return {type: actionTypes.LOAD_COMMENTS_SUCCESS, comments};
 }
 
-export const addComment = (parentId, title, body, author) => (
+export const addComment = (parentId, body, author) => (
   {
     type: actionTypes.ADD_COMMENT,
     parentId: parentId,
@@ -30,17 +30,15 @@ export const addComment = (parentId, title, body, author) => (
     timestamp: Date.now(),
     voteScore: 0,
     deleted: false,
-    title,
     body,
     author
   }
 )
 
-export const updateComment = (id, title, body) => (
+export const updateComment = (id, body) => (
   {
     type: actionTypes.UPDATE_COMMENT,
     id,
-    title,
     body
   }
 )

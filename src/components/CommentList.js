@@ -51,7 +51,7 @@ class CommentList extends Component {
           </Modal.Header>
           <Modal.Content>
             <Form>
-              <Form.TextArea placeholder='Comment' />
+              <Form.TextArea placeholder='Comment' rows="6" />
             </Form>
           </Modal.Content>
           <Modal.Actions>

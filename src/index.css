@@ -10,3 +10,6 @@
 	margin-top: 12px !important;
 }
 
+.comment-body {
+  white-space: pre-wrap;
+}
