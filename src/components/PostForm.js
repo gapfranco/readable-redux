@@ -50,25 +50,31 @@ class PostForm extends Component {
 
   render() {
     const errorLabel = <Label color="red" pointing/>
+    const ro = (this.insert || this.props.post.author !== this.props.user) ? {readOnly: true} : {}
     return (
       <div className="main ui text container">
 
         <Form noValidate onValidSubmit={this.validSubmit}>
 
           <h4 className="ui dividing header">{this.state.post.id ? 'Update Post' : 'New Post'}</h4>
-          <Input name="title" label="Title" placeholder="Title" required
+          <Input name="title" label="Title" placeholder="Title" required {...ro}
             value={this.state.post.title}
             validationErrors={{isDefaultRequiredValue: 'Title is required'}} errorLabel={errorLabel} />
 
-          <TextArea name="body" label="Text" placeholder="Text" required
+          <TextArea name="body" label="Text" placeholder="Text" required {...ro}
             value={this.state.post.body}
             validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel} />
 
-          <Dropdown name="category" label="Category" placeholder="Select category" search selection required
-            value={this.state.post.category}
-            validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel}
-            options={this.props.categories.map(cat => ({text: cat.name, value: cat.path}))}
-          />
+          <If test={ro.readOnly}>
+            <Input name="category" {...ro} value={this.state.post.category} />
+          </If>
+          <If test={!ro.readOnly}>
+            <Dropdown name="category" label="Category" placeholder="Select category" search selection required
+              value={this.state.post.category}
+              validationErrors={{isDefaultRequiredValue: 'Text is required'}} errorLabel={errorLabel}
+              options={this.props.categories.map(cat => ({text: cat.name, value: cat.path}))}
+            />
+          </If>
 
           {/* If it's an update, shows user, date and vote cont */}
           <If test={!this.insert}>
@@ -99,21 +105,23 @@ class PostForm extends Component {
           </If>
 
           {/* Buttons to save or delete */}
-          <div className="ui list">
-            <div className="ui item grid">
-              <div className="two column row">
-                <div className="left floated column">
-                  <Button primary icon='check' content="Save" />
-                </div>
-                {/* Delete only if it's an update */}
-                <If test={!this.insert}>
-                  <div className="right floated right aligned column">
-                    <Button color='red' icon='delete' content="Delete" onClick={this.clickDelete}/>
+          <If test={this.insert || this.props.post.author === this.props.user}>
+            <div className="ui list">
+              <div className="ui item grid">
+                <div className="two column row">
+                  <div className="left floated column">
+                    <Button primary icon='check' content="Save" />
                   </div>
-                </If>
+                  {/* Delete only if it's an update */}
+                  <If test={!this.insert}>
+                    <div className="right floated right aligned column">
+                      <Button color='red' icon='delete' content="Delete" onClick={this.clickDelete}/>
+                    </div>
+                  </If>
+                </div>
               </div>
             </div>
-          </div>
+          </If>
 
         </Form>
 

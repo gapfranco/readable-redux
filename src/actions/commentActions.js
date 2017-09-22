@@ -1,5 +1,6 @@
-import actionTypes from './actionTypes'
 import v4 from 'uuid'
+
+import actionTypes from './actionTypes'
 import postsApi from '../api/postsApi'
 
 /**

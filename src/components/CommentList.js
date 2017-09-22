@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Comment from './Comment'
 import { Form, Button, Modal } from 'semantic-ui-react'
+
 import { addComment, sortComments } from '../actions/commentActions'
 
 class CommentList extends Component {
@@ -63,11 +64,11 @@ class CommentList extends Component {
           </Modal.Header>
           <Modal.Content>
             <Form>
-              <Form.TextArea placeholder='Comment' rows="6" onChange={this.changeLocal} />
+              <Form.TextArea placeholder='Comment' rows="6" autoFocus onChange={this.changeLocal} />
             </Form>
           </Modal.Content>
           <Modal.Actions>
-            <Button className="ui primary button" onClick={this.save}>
+            <Button className={`ui button ${this.state.body !== '' ? 'primary' : 'disabled'}`} onClick={this.save}>
               Save
             </Button>
             <Button onClick={this.close}>

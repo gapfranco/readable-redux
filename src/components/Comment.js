@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-
 import { Form, Button, Modal } from 'semantic-ui-react'
-
 import { connect } from 'react-redux'
+
+import If from '../utils/If';
 import { voteComment, updateComment, deleteComment } from '../actions/commentActions'
 
 class Comment extends Component {
@@ -15,7 +15,11 @@ class Comment extends Component {
     }
   }
 
-  show = () => this.setState({ open: true })
+  show = () => {
+    if (this.props.comment.author === this.props.user) {
+      this.setState({ open: true })
+    }
+  }
 
   close = () => this.setState({ open: false, body: this.props.comment.body })
 
@@ -45,10 +49,12 @@ class Comment extends Component {
               <i className="calendar icon"></i>
               {new Date(this.props.comment.timestamp).toLocaleString()}
             </span>
-            <a className="ui basic label" onClick={() => this.props.deleteComment(this.props.comment.id)}>
-              <i className="remove icon"></i>
-              Delete comment
-            </a>
+            <If test={this.props.comment.author === this.props.user}>
+              <a className="ui basic label" onClick={() => this.props.deleteComment(this.props.comment.id)}>
+                <i className="remove icon"></i>
+                Delete comment
+              </a>
+            </If>
             <span className="ui right floated">
               {this.props.comment.voteScore} <a onClick={() => this.props.voteComment(this.props.comment.id)}>
                 {this.props.comment.voteScore > 0
@@ -66,11 +72,11 @@ class Comment extends Component {
           </Modal.Header>
           <Modal.Content>
             <Form>
-              <Form.TextArea placeholder='Comment' rows="6" onChange={this.changeLocal} value={this.state.body} />
+              <Form.TextArea placeholder='Comment' rows="6" autoFocus onChange={this.changeLocal} value={this.state.body} />
             </Form>
           </Modal.Content>
           <Modal.Actions>
-            <Button className="ui primary button" onClick={this.save}>
+            <Button className={`ui button ${this.state.body !== '' ? 'primary' : 'disabled'}`} onClick={this.save}>
               Save
             </Button>
             <Button onClick={this.close}>
@@ -87,12 +93,16 @@ class Comment extends Component {
 
 }
 
+const mapStateToProps = (state, props) => ({
+  user: state.user
+});
+
 const mapDispatchToProps = (dispatch) => {
   return {
     voteComment: (id) => dispatch(voteComment(id)),
     updateComment: (id, body) => dispatch(updateComment(id, body)),
-    deleteComment: (id) => dispatch(deleteComment(id))
+    deleteComment: (id) => dispatch(deleteComment(id)),
   }
 }
 
-export default connect(null, mapDispatchToProps)(Comment)
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)

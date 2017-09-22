@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { votePost } from '../actions/postActions'
 import { withRouter } from 'react-router-dom'
 
-const Post = ({post, key, votePost}) => {
+import { votePost } from '../actions/postActions'
+
+const Post = ({post, key, votePost, votes}) => {
   return (
     <div className="item">
       <div className="content">
@@ -36,12 +37,19 @@ const Post = ({post, key, votePost}) => {
           </span>
           <span className="ui label basic right floated">
             <i className="comment outline icon"></i>
-            3
+            {votes}
           </span>
         </div>
       </div>
     </div>
   )
+}
+
+const mapStateToProps = (state, props) => {
+  const votes = state.comments
+    .filter(comment => comment.parentId === props.post.id)
+    .length
+  return {votes: votes}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -50,4 +58,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Post))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post))
