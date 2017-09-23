@@ -2,13 +2,13 @@
 
 React application illustrating the use of Redux to keep track of state.
 
-# Specifications
+## Specifications
 
 - Users can post new content in a category
-- Users can vote in posts
-- Users can edit existing posts
+- Users can vote up and down in posts
+- Users can edit their posts
 - Users can comment on all posts
-- Users can edit comments
+- Users can edit thir comments
 - Posts can be listed by votes or date/time
 - Posts can be filtered by category
 

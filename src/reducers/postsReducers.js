@@ -3,7 +3,7 @@ import actionsTypes from '../actions/actionTypes'
 export const posts = (state = [], action) => {
   const {type, ...post} = action
   switch (type) {
-    case actionsTypes.LOAD_POSTS_SUCCESS:
+    case actionsTypes.LOAD_POSTS:
       return post.posts;
     case actionsTypes.ADD_POST:
       return [
@@ -15,7 +15,7 @@ export const posts = (state = [], action) => {
           body: post.body,
           author: post.author,
           category: post.category,
-          voteScore: 0,
+          voteScore: 1,
           deleted: false,
         }
       ]
@@ -35,6 +35,12 @@ export const posts = (state = [], action) => {
       return state.map(oldPost =>
         (oldPost.id === post.id)
           ? {...oldPost, voteScore: ++oldPost.voteScore}
+          : oldPost
+      )
+    case actionsTypes.VOTE_POST_DOWN:
+      return state.map(oldPost =>
+        (oldPost.id === post.id)
+          ? {...oldPost, voteScore: --oldPost.voteScore}
           : oldPost
       )
     default:

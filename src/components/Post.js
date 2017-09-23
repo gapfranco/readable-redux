@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { votePost } from '../actions/postActions'
+import { votePost, votePostDown } from '../actions/postActions'
 
-const Post = ({post, key, votePost, votes}) => {
+const Post = ({post, key, votePost, votePostDown, qtd}) => {
   return (
     <div className="item">
       <div className="content">
@@ -15,12 +15,8 @@ const Post = ({post, key, votePost, votes}) => {
         <div className="meta">
           {post.category}
           <div className="ui right floated">
-            {post.voteScore} <a onClick={() => votePost(post.id)}>
-              {post.voteScore > 0 
-                ? <i className='star yellow icon' />
-                : <i className='empty star yellow icon' />
-              }
-            </a>
+            {post.voteScore} <a onClick={() => votePost(post.id)}><i className='chevron up green icon' /></a>
+            <a onClick={() => votePostDown(post.id)}><i className='chevron down red icon' /></a>
           </div>
         </div>
         <div className="description">
@@ -37,7 +33,7 @@ const Post = ({post, key, votePost, votes}) => {
           </span>
           <span className="ui label basic right floated">
             <i className="comment outline icon"></i>
-            {votes}
+            {qtd}
           </span>
         </div>
       </div>
@@ -46,15 +42,16 @@ const Post = ({post, key, votePost, votes}) => {
 }
 
 const mapStateToProps = (state, props) => {
-  const votes = state.comments
+  const qtd = state.comments
     .filter(comment => comment.parentId === props.post.id)
     .length
-  return {votes: votes}
+  return {qtd: qtd}
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    votePost: (id) => dispatch(votePost(id))
+    votePost: (id) => dispatch(votePost(id)),
+    votePostDown: (id) => dispatch(votePostDown(id)),
   }
 }
 

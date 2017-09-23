@@ -2,6 +2,9 @@ import actionTypes from './actionTypes'
 import v4 from 'uuid'
 import postsApi from '../api/postsApi'
 
+/**
+ * Load posts async action. Calls API and dispatches loadPostsSucess
+ */
 export const loadPosts = () => {
   return function(dispatch) {
     return postsApi.getAllPosts().then(posts => {
@@ -13,9 +16,12 @@ export const loadPosts = () => {
 }
 
 export const loadPostsSuccess = (posts) => {
-  return {type: actionTypes.LOAD_POSTS_SUCCESS, posts};
+  return {type: actionTypes.LOAD_POSTS, posts};
 }
 
+/**
+ * Load categories action. Calls API and dispatches loadCategories
+ */
 export const loadCategories = () => {
   return function(dispatch) {
     return postsApi.getCategories().then(result => {
@@ -30,12 +36,27 @@ export const loadCategoriesSuccess = (categories) => {
   return {type: actionTypes.LOAD_CATEGORIES, categories};
 }
 
-export const addPost = (title, body, author, category) => (
+/**
+ * Add post action. Calls API and dispatches addPostSuccess
+ */
+export const addPost = (title, body, author, category) => {
+  return (dispatch) => {
+    const id = v4()
+    const dt = Date.now()
+    return postsApi.createPost(id, dt, title, body, author, category)
+      .then(() => dispatch(addPostSuccess(id, dt, title, body, author, category)))
+      .catch(error => {
+        throw(error);
+      });
+  }
+}
+
+export const addPostSuccess = (id, dt, title, body, author, category) => (
   {
     type: actionTypes.ADD_POST,
-    id: v4(),
-    timestamp: Date.now(),
-    voteScore: 0,
+    id: id,
+    timestamp: dt,
+    voteScore: 1,
     deleted: false,
     title,
     body,
@@ -44,7 +65,20 @@ export const addPost = (title, body, author, category) => (
   }
 )
 
-export const updatePost = (id, title, body, category) => (
+/**
+ * Update post action. Calls API abd dispatches updatePostSuccess 
+ */
+export const updatePost = (id, title, body, category) => {
+  return (dispatch) => {
+    return postsApi.updatePost(id, title, body, category)
+      .then(() => dispatch(updatePostSuccess(id, title, body, category)))
+      .catch(error => {
+        throw(error);
+      });
+  }
+}
+
+export const updatePostSuccess = (id, title, body, category) => (
   {
     type: actionTypes.UPDATE_POST,
     id,
@@ -54,24 +88,70 @@ export const updatePost = (id, title, body, category) => (
   }
 )
 
-export const sortPosts = (sortBy) => (
+/**
+ * Vote post action. Calls API abd dispatches votePostSuccess 
+ */
+export const votePost = (id) => {
+  return (dispatch) => {
+    return postsApi.votePost(id, 'upVote')
+      .then(() => dispatch(votePostSuccess(id)))
+      .catch(error => {
+        throw(error);
+      });
+  }
+}
+
+export const votePostSuccess = (id) => (
   {
-    type: actionTypes.SORT_POSTS,
-    sortBy: sortBy
+    type: actionTypes.VOTE_POST,
+    id: id
   }
 )
 
-export const deletePost = (id) => (
+/**
+ * Vote post down action. Calls API abd dispatches votePostDownSuccess 
+ */
+export const votePostDown = (id) => {
+  return (dispatch) => {
+    return postsApi.votePost(id, 'downVote')
+      .then(() => dispatch(votePostDownSuccess(id)))
+      .catch(error => {
+        throw(error);
+      });
+  }
+}
+
+export const votePostDownSuccess = (id) => (
+  {
+    type: actionTypes.VOTE_POST_DOWN,
+    id: id
+  }
+)
+
+/**
+ * Delete post action. Calls API abd dispatches deletePostSuccess 
+ */
+export const deletePost = (id) => {
+  return (dispatch) => {
+    return postsApi.deletePost(id)
+      .then(() => dispatch(deletePostSuccess(id)))
+      .catch(error => {
+        throw(error);
+      });
+  }
+}
+
+export const deletePostSuccess = (id) => (
   {
     type: actionTypes.DELETE_POST,
     id: id
   }
 )
 
-export const votePost = (id) => (
+export const sortPosts = (sortBy) => (
   {
-    type: actionTypes.VOTE_POST,
-    id: id
+    type: actionTypes.SORT_POSTS,
+    sortBy: sortBy
   }
 )
 

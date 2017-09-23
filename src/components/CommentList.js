@@ -33,7 +33,7 @@ class CommentList extends Component {
     return (
       <div className="ui text container">
         <div className="ui four item menu" id="submenu">
-          <span className="item"><i className="comment outline icon"></i>Comments</span>
+          <span className="item"><i className="comment outline icon"></i>{this.props.qtd} Comments</span>
           <a className="item" onClick={this.show}><i className="add icon"></i>New Comment</a>
           <a className="ui simple dropdown item menuItem">
             <i className="sort content descending icon"></i> {this.props.sortComments}
@@ -83,8 +83,11 @@ class CommentList extends Component {
 
 }
 
-const mapStateToProps = (state, props) => ({
-  ...state
-});
+const mapStateToProps = (state, props) => {
+  const qtd = state.comments
+  .filter(comment => comment.parentId === props.postId)
+  .length
+  return {...state, qtd: qtd}
+}  
 
 export default connect(mapStateToProps)(CommentList)

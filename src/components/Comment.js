@@ -3,7 +3,7 @@ import { Form, Button, Modal } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import If from '../utils/If';
-import { voteComment, updateComment, deleteComment } from '../actions/commentActions'
+import { voteComment, voteCommentDown, updateComment, deleteComment } from '../actions/commentActions'
 
 class Comment extends Component {
 
@@ -56,12 +56,8 @@ class Comment extends Component {
               </a>
             </If>
             <span className="ui right floated">
-              {this.props.comment.voteScore} <a onClick={() => this.props.voteComment(this.props.comment.id)}>
-                {this.props.comment.voteScore > 0
-                  ? <i className='star yellow icon' />
-                  : <i className='empty star yellow icon' />
-                }
-              </a>
+              {this.props.comment.voteScore} <a onClick={() => this.props.voteComment(this.props.comment.id)}><i className='chevron up green icon' /></a>
+              <a onClick={() => this.props.voteCommentDown(this.props.comment.id)}><i className='chevron down red icon' /></a>
             </span>
           </div>
         </div>
@@ -100,6 +96,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     voteComment: (id) => dispatch(voteComment(id)),
+    voteCommentDown: (id) => dispatch(voteCommentDown(id)),
     updateComment: (id, body) => dispatch(updateComment(id, body)),
     deleteComment: (id) => dispatch(deleteComment(id)),
   }

@@ -5,17 +5,19 @@ import If from '../utils/If';
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { updatePost, deletePost, addPost, votePost } from '../actions/postActions'
+import { updatePost, deletePost, addPost, votePost, votePostDown } from '../actions/postActions'
 
 class PostForm extends Component {
 
   constructor (props) {
     super(props)
+    // Mark if it's an insert
     if (!props.post.id) {
       this.insert = true
     } else {
       this.insert = false
     }
+    // Local state for fields 
     this.state = {
       post: {...props.post},
     }
@@ -24,7 +26,7 @@ class PostForm extends Component {
   votePost = (id) => {
     // Update global state
     this.props.dispatch(votePost(id))
-    // Update local state fo display
+    // Update local state for local display
     this.setState(prevState => ({
       post: {
         ...prevState.post,
@@ -33,13 +35,25 @@ class PostForm extends Component {
     }))
   }
 
+  votePostDown = (id) => {
+    // Update global state
+    this.props.dispatch(votePostDown(id))
+    // Update local state to display
+    this.setState(prevState => ({
+      post: {
+        ...prevState.post,
+        voteScore: prevState.post.voteScore - 1
+      }
+    }))
+  }
+
   validSubmit = (form) => {
     if (this.insert) {
       this.props.dispatch(addPost(form.title, form.body, this.props.user, form.category))
-      this.props.history.push('/')
     } else {
       this.props.dispatch(updatePost(this.state.post.id, form.title, form.body, form.category))
     }
+    this.props.history.push('/')
   }
 
   clickDelete = (event) => {
@@ -50,7 +64,11 @@ class PostForm extends Component {
 
   render() {
     const errorLabel = <Label color="red" pointing/>
-    const ro = (this.insert || this.props.post.author !== this.props.user) ? {readOnly: true} : {}
+    // Makes form read-only if not an insert and different from current user
+    let ro = {}
+    if (!this.insert && this.props.post.author !== this.props.user) {
+      ro = {readOnly: true}
+    } 
     return (
       <div className="main ui text container">
 
@@ -92,12 +110,8 @@ class PostForm extends Component {
                 </div>
                 <div className="right floated right aligned column">
                   <span>
-                    {this.state.post.voteScore} <a onClick={() => this.votePost(this.state.post.id)}>
-                      {this.state.post.voteScore > 0
-                        ? <i className='star yellow icon' />
-                        : <i className='empty star yellow icon' />
-                      }
-                      </a>
+                    {this.state.post.voteScore} <a onClick={() => this.votePost(this.state.post.id)}><i className='chevron up green icon' /></a>
+                    <a onClick={() => this.votePostDown(this.state.post.id)}><i className='chevron down red icon' /></a>
                   </span>
                 </div>
               </div>

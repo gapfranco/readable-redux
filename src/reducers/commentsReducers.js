@@ -3,7 +3,7 @@ import actionsTypes from '../actions/actionTypes'
 export const comments = (state = [], action) => {
   const {type, ...comment} = action
   switch (type) {
-    case actionsTypes.LOAD_COMMENTS_SUCCESS:
+    case actionsTypes.LOAD_COMMENTS:
       // Flatten comment.comments (array of arrays of comments)
       // Alternative: return comment.comments.reduce((a, b) => a.concat(b), [])
       return [].concat(...comment.comments)
@@ -16,7 +16,7 @@ export const comments = (state = [], action) => {
           timestamp: Date.now(),
           body: comment.body,
           author: comment.author,
-          voteScore: 0,
+          voteScore: 1,
           deleted: false,
           parentDeleted: false
         }
@@ -28,11 +28,21 @@ export const comments = (state = [], action) => {
           : oldComment
       )
     case actionsTypes.DELETE_COMMENT:
-      return state.filter(oldComment => oldComment.id !== comment.id)
+      return state.map(oldComment =>
+        (oldComment.id === comment.id)
+          ? {...oldComment, deleted: true}
+          : oldComment
+      )
     case actionsTypes.VOTE_COMMENT:
       return state.map(oldComment =>
         (oldComment.id === comment.id)
           ? {...oldComment, voteScore: ++oldComment.voteScore}
+          : oldComment
+      )
+    case actionsTypes.VOTE_COMMENT_DOWN:
+      return state.map(oldComment =>
+        (oldComment.id === comment.id)
+          ? {...oldComment, voteScore: --oldComment.voteScore}
           : oldComment
       )
     default:
