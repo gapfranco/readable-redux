@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import mainReducer from './reducers/mainReducer'
@@ -12,8 +12,18 @@ import registerServiceWorker from './registerServiceWorker'
 import 'semantic-ui-css/semantic.min.css'
 import './index.css'
 
+// Turn REDUX_DEVTOOLS_EXTENSION on or off
+const USE_REDUX_DEVTOOLS = false
+
 // Create store and load initial data
-const store = createStore(mainReducer, applyMiddleware(thunk))
+let store
+if (USE_REDUX_DEVTOOLS) {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  store = createStore(mainReducer, composeEnhancers(applyMiddleware(thunk)))
+} else {
+  store = createStore(mainReducer, applyMiddleware(thunk))  
+}
+
 store.dispatch(loadPosts())
 store.dispatch(loadAllComments())
 store.dispatch(loadCategories())
