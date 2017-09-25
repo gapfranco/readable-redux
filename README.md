@@ -72,7 +72,7 @@ If the comment is from the current user, there is a *Delete comment* button to e
 
 ## Tests
 
-There are a couple of *Jest* tests on action creators in the *__tests__* folder. It still lacks
+There are a couple of *Jest* tests on action creators in the *\_\_tests\_\_* folder. It still lacks
 asynchronous actions creators tests and reducers tests.
 
 ## Set Up
