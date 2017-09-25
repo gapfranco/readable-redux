@@ -44,6 +44,7 @@ const Post = ({post, key, votePost, votePostDown, qtd}) => {
 const mapStateToProps = (state, props) => {
   const qtd = state.comments
     .filter(comment => comment.parentId === props.post.id)
+    .filter(comment => !comment.deleted)
     .length
   return {qtd: qtd}
 }

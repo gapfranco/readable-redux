@@ -86,8 +86,9 @@ class CommentList extends Component {
 const mapStateToProps = (state, props) => {
   const qtd = state.comments
   .filter(comment => comment.parentId === props.postId)
+  .filter(comment => !comment.deleted)
   .length
   return {...state, qtd: qtd}
-}  
+}
 
 export default connect(mapStateToProps)(CommentList)
