@@ -6,10 +6,7 @@ import Post from './Post'
 
 const PostList = ({match, posts, sortPosts, dispatch}) => {
   const {categoryId} = match.params
-  let categoryFilter = ''
-  if (!!categoryId) {
-    categoryFilter = categoryId
-  }  
+  const categoryFilter = !!categoryId ? categoryId : ''
   return (
     <div className="main ui text container">
       <div className="ui divided items">
