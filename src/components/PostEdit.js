@@ -6,7 +6,7 @@ import PostForm from './PostForm'
 import CommentList from './CommentList'
 
 const PostEdit = ({match, posts, dispatch}) => {
-  const postId = match.params.postId
+  const {postId} = match.params
   let post = posts.find(post => post.id === postId)
   /**
    * If post (asynchronous) has not arrived: shows message

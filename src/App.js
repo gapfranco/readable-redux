@@ -18,14 +18,19 @@ const App = () => {
           <PostList />
         </div>
       )} />
-      <Route path="/newpost" render={() => (
+      <Route exact path="/newpost" render={() => (
         <div>
           <PostNew />
         </div>
       )} />
-      <Route path="/post/:postId" render={() => (
+      <Route path="/post/:categoryId/:postId" render={() => (
         <div>
           <PostEdit />
+        </div>
+      )} />
+      <Route path="/:categoryId" render={() => (
+        <div>
+          <PostList />
         </div>
       )} />
     </div>

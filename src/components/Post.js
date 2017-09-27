@@ -10,7 +10,7 @@ const Post = ({post, key, votePost, votePostDown, qtd}) => {
     <div className="item">
       <div className="content">
         <div className="header">
-          <Link to={`/post/${post.id}`}>{post.title}</Link>
+          <Link to={`/post/${post.category}/${post.id}`}>{post.title}</Link>
         </div>
         <div className="meta">
           {post.category}

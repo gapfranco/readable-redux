@@ -18,7 +18,7 @@ const Header = ({user, sortPosts, setUser, setOrder, setCategory, categoryFilter
       <div className="ui fluid container">
 
         <span className="item">
-          <Link to="/">
+          <Link to={`/${categoryFilter}`}>
             <img className="ui avatar image" src={`/logo.svg`} alt="react" />
             Readable
           </Link>
@@ -88,10 +88,13 @@ const mapStateToProps = (state, props) => ({
   ...state
 });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownprops) => {
   return {
     setUser: (id) => dispatch(user(id)),
-    setCategory: (id) => dispatch(setCategoryFilter(id)),
+    setCategory: (id) => {
+      dispatch(setCategoryFilter(id))
+      ownprops.history.push(`/${id}`)
+    },
     setOrder: (order) => dispatch(sortPosts(order)),
   }
 }

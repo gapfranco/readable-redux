@@ -1,8 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
 import Post from './Post'
 
-const PostList = ({posts, sortPosts, categoryFilter}) => {
+const PostList = ({match, posts, sortPosts, dispatch}) => {
+  const {categoryId} = match.params
+  let categoryFilter = ''
+  if (!!categoryId) {
+    categoryFilter = categoryId
+  }  
   return (
     <div className="main ui text container">
       <div className="ui divided items">
@@ -22,4 +29,4 @@ const mapStateToProps = (state, props) => ({
   ...state
 });
 
-export default connect(mapStateToProps)(PostList)
+export default withRouter(connect(mapStateToProps)(PostList))
